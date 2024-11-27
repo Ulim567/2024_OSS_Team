@@ -11,12 +11,27 @@ export default function Test() {
     setMenus([]);
   }, [menus]);
 
-  const getData = async () => {
+  const getData = async (keyword) => {
     try {
-      const response = await axios.get(
-        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/1/1001/RCP_NM="김치찌개"`
+      keyword = keyword.trim();
+      console.log(keyword);
+      console.log(
+        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/1/1000/RCP_NM="${keyword}"`
       );
-      setMenus(response.data.COOKRCP01.row);
+      const response1 = await axios.get(
+        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/1/1000/RCP_NM="${keyword}"`
+      );
+      const firstData = response1.data.COOKRCP01.row;
+
+      // const response2 = await axios.get(
+      //   `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/1001/1136/RCP_NM="토마토"`
+      // );
+      // const firstData2 = response2.data.COOKRCP01.row;
+
+      // const combinedMenus = [...firstData, ...firstData2];
+
+      // 상태 업데이트
+      setMenus(firstData);
       console.log(menus);
     } catch (error) {
       console.log(error);
@@ -25,7 +40,7 @@ export default function Test() {
 
   return (
     <>
-      <Button variant="primary" onClick={getData}>
+      <Button variant="primary" onClick={() => getData("토마토")}>
         Test
       </Button>
       <Table striped>

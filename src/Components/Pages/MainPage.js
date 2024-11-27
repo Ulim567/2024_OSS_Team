@@ -1,7 +1,7 @@
 import React from "react";
 import MenuList from "../Elements/MenuList";
 import CustomNavBar from "../Elements/CustomNavBar";
-import { Container, InputGroup, Form, Button, Row, Col } from "react-bootstrap";
+import SearchBar from "../Elements/SearchBar";
 
 export default function MainPage() {
   const styles = {
@@ -27,21 +27,7 @@ export default function MainPage() {
       <CustomNavBar></CustomNavBar>
 
       <div style={styles.container}>
-        <InputGroup
-          className="p-3 mx-auto"
-          style={{ maxWidth: "500px", width: "100%" }}
-        >
-          <Form.Control
-            placeholder="Enter menu name"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            style={{ borderColor: "#7a7a7a" }}
-          />
-          <InputGroup.Text id="basic-addon1" style={{ borderColor: "#7a7a7a" }}>
-            @
-          </InputGroup.Text>
-        </InputGroup>
-
+        <SearchBar></SearchBar>
         <MenuList></MenuList>
       </div>
     </>

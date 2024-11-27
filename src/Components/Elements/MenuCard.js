@@ -1,23 +1,33 @@
 import React from "react";
-import { Button, Card, Row, Image, Col } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 
-export default function MenuCard() {
+export default function MenuCard({ menu }) {
+  const styles = {
+    square: {
+      width: "100%", // 부모의 너비를 100%로 설정
+      aspectRatio: "1 / 1", // 정사각형 비율 유지
+      position: "relative", // 정사각형 비율을 고정
+      overflow: "hidden", // 이미지가 벗어나지 않도록 처리
+      borderRadius: "5px",
+    },
+    image: {
+      width: "100%", // 정사각형에 맞추기
+      height: "100%", // 정사각형에 맞추기
+      objectFit: "cover", // 이미지 비율을 유지하면서 정사각형에 꽉 채우기
+      display: "block",
+    },
+  };
+
   return (
-    <Col className="px-4 py-2">
-      <Card style={{ padding: "0" }}>
-        <Card.Img
-          variant="top"
-          src="https://img.bizthenaum.co.kr/data/img/1000000869/ori/1000000869_11.jpg"
+    <Col className="p-3">
+      <div style={styles.square}>
+        <img
+          src={menu.ATT_FILE_NO_MAIN}
+          alt={menu.RCP_SEQ}
+          style={styles.image}
         />
-        <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-      </Card>
+      </div>
+      <div className="text-center fs-5">{menu.RCP_NM}</div>
     </Col>
   );
 }

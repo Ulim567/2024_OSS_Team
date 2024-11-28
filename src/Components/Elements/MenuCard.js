@@ -1,5 +1,6 @@
 import React from "react";
 import { Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function MenuCard({ menu }) {
   const styles = {
@@ -20,14 +21,20 @@ export default function MenuCard({ menu }) {
 
   return (
     <Col className="p-3">
-      <div style={styles.square}>
-        <img
-          src={menu.ATT_FILE_NO_MAIN}
-          alt={menu.RCP_SEQ}
-          style={styles.image}
-        />
-      </div>
-      <div className="text-center fs-5">{menu.RCP_NM}</div>
+      <Link
+        to="/detail"
+        state={menu}
+        style={{ textDecoration: "none", color: "#000000" }}
+      >
+        <div style={styles.square}>
+          <img
+            src={menu.ATT_FILE_NO_MAIN}
+            alt={menu.RCP_SEQ}
+            style={styles.image}
+          />
+        </div>
+        <div className="text-center fs-5">{menu.RCP_NM}</div>
+      </Link>
     </Col>
   );
 }

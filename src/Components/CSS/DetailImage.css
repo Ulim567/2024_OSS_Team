@@ -1,0 +1,20 @@
+.menu_img_detail {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 24px;
+}
+
+.detail_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .menu_img_detail {
+    aspect-ratio: 1 / 1.3;
+  }
+}

@@ -1,12 +1,13 @@
 import React from "react";
-import MenuList from "../Elements/MenuList";
+import MenuList from "../Elements/Main/MenuList";
 import CustomNavBar from "../Elements/CustomNavBar";
-import SearchBar from "../Elements/SearchBar";
+import SearchBar from "../Elements/Main/SearchBar";
 
 export default function MainPage() {
   const styles = {
     container: {
-      maxWidth: "900px", // 최대 너비 (1200px 고정)
+      maxWidth: "1200px", // 최대 너비 (1200px 고정)
+      minWidth: "600px",
       width: "100%", // 기본적으로 100% 너비 사용
       margin: "0 auto", // 가로 중앙 정렬
     },

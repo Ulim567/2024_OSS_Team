@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import styles from "../CSS/FAB.module.css";
+import styles from "../../CSS/FAB.module.css";
 
 export default function FAB({ menu }) {
   return (

@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { Row, Col, Stack } from "react-bootstrap";
 
 import CustomNavBar from "../Elements/CustomNavBar";
-import DetailTable from "../Elements/DetailTable";
-import RecipeCarousel from "../Elements/RecipeCarousel";
-import FAB from "../Elements/CustomFAB";
+import DetailTable from "../Elements/MenuDetail/DetailTable";
+import RecipeCarousel from "../Elements/MenuDetail/RecipeCarousel";
+import FAB from "../Elements/MenuDetail/CustomFAB";
 import "../CSS/DetailImage.css";
 
 export default function MenuDetailPage() {

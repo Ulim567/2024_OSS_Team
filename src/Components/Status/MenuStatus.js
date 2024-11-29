@@ -40,6 +40,21 @@ const useMenu = create((set, get) => ({
     }
   },
 
+  getMenusByName2: async (keyword) => {
+    try {
+      const response1 = await axios.get(
+        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/0/1136/RCP_NM="${keyword}"`
+      );
+
+      let firstBatch = response1.data.COOKRCP01.row;
+      if (firstBatch == null) firstBatch = [];
+
+      set({ menus: firstBatch });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   getMenusByName: async (keyword) => {
     try {
       const response1 = await axios.get(

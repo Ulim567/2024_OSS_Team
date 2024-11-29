@@ -1,11 +1,12 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Row, Col, Stack } from "react-bootstrap";
 
 import CustomNavBar from "../Elements/CustomNavBar";
 import DetailTable from "../Elements/DetailTable";
 import RecipeCarousel from "../Elements/RecipeCarousel";
+import FAB from "../Elements/CustomFAB";
 import "../CSS/DetailImage.css";
 
 export default function MenuDetailPage() {
@@ -31,37 +32,8 @@ export default function MenuDetailPage() {
 
   const location = useLocation();
   const menu = location.state;
-  const [recipeList, setRecipeList] = useState([]);
 
-  useEffect(() => {
-    const getRecipeList = () => {
-      const list = [];
-      for (let i = 1; i <= 20; i++) {
-        const index = i.toString().padStart(2, "0");
-        const manualKey = `MANUAL${index}`;
-        const manualImgKey = `MANUAL_IMG${index}`;
-
-        console.log(manualKey);
-        console.log(manualImgKey);
-
-        console.log(menu[manualKey]);
-
-        // menu[manualKey]가 존재하지 않으면, break
-        if (menu[manualKey] == "") {
-          break;
-        }
-
-        console.log("Step : " + menu[manualKey]);
-        console.log("Img : " + menu[manualImgKey]);
-        list.push({
-          step: menu[manualKey],
-          image: menu[manualImgKey] || null,
-        });
-      }
-      setRecipeList(list);
-    };
-    getRecipeList();
-  }, [menu]);
+  useEffect(() => {}, [menu]);
 
   if (!menu || menu == null) {
     return <h1>오류가 발생했습니다. 이전 페이지로 돌아가주세요.</h1>;
@@ -70,6 +42,7 @@ export default function MenuDetailPage() {
 
   return (
     <div>
+      <FAB></FAB>
       <CustomNavBar></CustomNavBar>
       <div style={styles.detail_main_container}>
         <h1 className="py-3 m-0 fs-2 fw-bold">레시피 상세</h1>
@@ -77,11 +50,15 @@ export default function MenuDetailPage() {
           className="m-0 mb-4 p-0"
           style={{ border: "0", height: "3px", background: "#6e6e6e" }}
         ></hr>
+
         <Row className="p-4 mb-4" style={styles.shadowBox}>
-          <h4 className="fw-bold">{menu.RCP_NM}</h4>
-          <p style={{ fontSize: "14px" }}>
-            {menu.RCP_WAY2} / {menu.RCP_PAT2}
-          </p>
+          <div>
+            <h4 className="fw-bold">{menu.RCP_NM}</h4>
+            <p style={{ fontSize: "14px" }}>
+              {menu.RCP_WAY2} / {menu.RCP_PAT2}
+            </p>
+          </div>
+
           <hr></hr>
           <Col md={5}>
             <div className="menu_img_detail">
@@ -106,14 +83,14 @@ export default function MenuDetailPage() {
             </Stack>
           </Col>
           <hr className="m-0 mt-5"></hr>
-          <Col>
+          <div>
             <h4 className="fw-semibold fs-4 text-center my-4">
               &lt;조리 과정&gt;
             </h4>
             <div style={styles.carousel_container}>
-              <RecipeCarousel recipeList={recipeList}></RecipeCarousel>
+              <RecipeCarousel menu={menu}></RecipeCarousel>
             </div>
-          </Col>
+          </div>
         </Row>
       </div>
     </div>

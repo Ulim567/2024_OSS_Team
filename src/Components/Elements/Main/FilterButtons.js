@@ -1,7 +1,6 @@
 import React from "react";
 import { Stack } from "react-bootstrap";
 import FilterButton from "./FilterButton";
-import { useEffect } from "react";
 
 export default function FilterButtons({ filter, filterMenus }) {
   return (

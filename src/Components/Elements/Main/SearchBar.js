@@ -1,12 +1,23 @@
 import React from "react";
-import { useState } from "react";
-import { InputGroup, Form, Row, Button, Col, Stack } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { InputGroup, Form, Stack } from "react-bootstrap";
+import FilterButtons from "./FilterButtons";
 import useMenu from "../../Status/MenuStatus";
 
 export default function SearchBar() {
   const [searchName, setSearchName] = useState("");
   const getMenusByName = useMenu((state) => state.getMenusByName);
-  const menus = useMenu((state) => state.menus);
+  const menus = useMenu((state) => state.filteredMenus);
+
+  const [filter, setFilter] = useState("전체");
+  const applyFilter = useMenu((state) => state.applyFilter);
+
+  useEffect(() => {}, [filter, menus]);
+
+  const filterMenus = (filterName) => {
+    applyFilter(filterName);
+    setFilter(filterName);
+  };
 
   const handleChange = (event) => {
     setSearchName(event.target.value);
@@ -19,8 +30,9 @@ export default function SearchBar() {
     if (searchName.trim() !== "") {
       console.log("Search : " + searchName);
       await getMenusByName(searchName);
+      applyFilter("전체");
+      setFilter("전체");
       console.log(menus);
-      //   window.location.reload();
     }
   };
 
@@ -70,78 +82,7 @@ export default function SearchBar() {
         </InputGroup.Text>
       </InputGroup>
       <Stack direction="horizontal" gap={3}>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "25px",
-            width: "60px",
-            borderColor: "#8a8a8a",
-          }}
-        >
-          전체
-        </Button>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "30px",
-            width: "50px",
-            borderColor: "#8a8a8a",
-            fontSize: "1rem",
-          }}
-        >
-          밥
-        </Button>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "30px",
-            width: "60px",
-            borderColor: "#8a8a8a",
-            fontSize: "1rem",
-          }}
-        >
-          반찬
-        </Button>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "30px",
-            borderColor: "#8a8a8a",
-          }}
-        >
-          국&찌개
-        </Button>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "30px",
-            width: "60px",
-            borderColor: "#8a8a8a",
-          }}
-        >
-          후식
-        </Button>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "30px",
-            width: "60px",
-            borderColor: "#8a8a8a",
-          }}
-        >
-          일품
-        </Button>
-        <Button
-          variant="outlined-secondary"
-          style={{
-            borderRadius: "30px",
-            width: "60px",
-            borderColor: "#8a8a8a",
-            marginRight: "auto",
-          }}
-        >
-          기타
-        </Button>
+        <FilterButtons filter={filter} filterMenus={filterMenus} />
       </Stack>
       <hr className="my-3"></hr>
     </Form>

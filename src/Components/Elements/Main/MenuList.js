@@ -5,9 +5,7 @@ import useMenu from "../../Status/MenuStatus";
 import MenuCard from "./MenuCard";
 
 export default function MenuList() {
-  const menus = useMenu((state) => state.menus);
-
-  useEffect(() => {}, [menus]);
+  const menus = useMenu((state) => state.filteredMenus);
 
   return (
     <Container className="d-flex flex-wrap">

@@ -6,6 +6,7 @@ var KEY = "06b2240508d148a6b6c6";
 const useMenu = create((set, get) => ({
   menuNamesForSearch: [],
   menus: [],
+  filteredMenus: [],
   targetMenu: null,
 
   setMenus: (newData) => set({ menus: newData }),
@@ -58,9 +59,23 @@ const useMenu = create((set, get) => ({
 
       let combinedMenus = [...firstBatch, ...secondBatch];
       set({ menus: combinedMenus });
+      set({ filterMenus: combinedMenus });
     } catch (error) {
       console.log(error);
     }
+  },
+
+  applyFilter: (filterName) => {
+    const menus = get().menus; // 상태 가져오기
+    if (filterName === "전체") {
+      set({ filteredMenus: menus });
+      return;
+    }
+
+    const temp = menus.filter((menu) => menu.RCP_PAT2 === filterName);
+    set({ filteredMenus: temp });
+
+    console.log("Filter complete: total " + temp.length);
   },
 }));
 

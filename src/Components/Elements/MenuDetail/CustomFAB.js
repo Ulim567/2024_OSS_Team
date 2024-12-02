@@ -6,12 +6,7 @@ import styles from "../../CSS/FAB.module.css";
 export default function FAB({ menu }) {
   return (
     <div>
-      <button
-        className={styles.floatingButton}
-        onClick={() => {
-          console.log(menu);
-        }}
-      >
+      <button className={styles.floatingButton}>
         <Link to={"/create"} state={menu}>
           <img
             className="p-2 m-0"

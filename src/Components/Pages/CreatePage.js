@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useMenuContext } from "../Context/MenuContext";
 import axios from "axios";
 import "../CSS/CreatePage.css"; // CSS 파일 경로 수정
 
 const CreatePage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState(""); // 새 플래너 제목
@@ -20,10 +20,12 @@ const CreatePage = () => {
   const [plannerList, setPlannerList] = useState([]); // 기존 플래너 목록
   const [selectedPlanner, setSelectedPlanner] = useState(""); // 요리를 추가할 플래너 선택
 
+  const { menu } = useMenuContext();
+
   useEffect(() => {
     // DetailPage에서 전달된 데이터 설정
-    if (location.state) {
-      const menu = location.state;
+    if (menu) {
+      // const menu = location.state;
       setSelectedMenu(menu.RCP_NM || "");
       setShoppingList(menu.RCP_PARTS_DTLS || "");
       setImageUrl(menu.ATT_FILE_NO_MK || "");
@@ -42,7 +44,7 @@ const CreatePage = () => {
     };
 
     fetchPlanners();
-  }, [location.state]);
+  }, [menu]);
 
   const handleSubmit = async () => {
     if (mode === "new") {

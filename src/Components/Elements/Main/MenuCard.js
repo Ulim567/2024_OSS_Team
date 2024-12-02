@@ -1,14 +1,22 @@
 import React from "react";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useMenuContext } from "../../Context/MenuContext";
 
 import styles from "../../CSS/MainMenuImage.module.css";
 
 export default function MenuCard({ menu }) {
+  const { setMenu } = useMenuContext();
+
+  const handleClick = () => {
+    setMenu(menu);
+  };
+
   return (
     <Col className="p-3" sm={6} md={4} lg={3} xl={3}>
       <Link
         to="/detailMenu"
+        onClick={handleClick}
         state={menu}
         style={{ textDecoration: "none", color: "#000000" }}
       >

@@ -1,7 +1,7 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Row, Col, Stack } from "react-bootstrap";
+import { useMenuContext } from "../Context/MenuContext";
 
 import CustomNavBar from "../Elements/CustomNavBar";
 import DetailTable from "../Elements/MenuDetail/DetailTable";
@@ -30,8 +30,7 @@ export default function MenuDetailPage() {
     },
   };
 
-  const location = useLocation();
-  const menu = location.state;
+  const { menu } = useMenuContext();
 
   useEffect(() => {}, [menu]);
 

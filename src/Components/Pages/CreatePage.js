@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMenuContext } from "../Context/MenuContext";
+// import { useMenuContext } from "../Context/MenuContext";/
 import axios from "axios";
 import "../CSS/CreatePage.css"; // CSS 파일 경로 수정
 
@@ -20,7 +20,8 @@ const CreatePage = () => {
   const [plannerList, setPlannerList] = useState([]); // 기존 플래너 목록
   const [selectedPlanner, setSelectedPlanner] = useState(""); // 요리를 추가할 플래너 선택
 
-  const { menu } = useMenuContext();
+  // const { menu } = useMenuContext();
+  const menu = JSON.parse(sessionStorage.getItem("targetMenu"));
 
   useEffect(() => {
     // DetailPage에서 전달된 데이터 설정

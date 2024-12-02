@@ -17,10 +17,12 @@ export default function SearchBar() {
   const filterMenus = (filterName) => {
     applyFilter(filterName);
     setFilter(filterName);
+    sessionStorage.setItem("filterName", filterName);
   };
 
   const handleChange = (event) => {
-    setSearchName(event.target.value);
+    const value = event.target.value;
+    setSearchName(value);
   };
 
   const handleSubmit = async (event) => {
@@ -32,6 +34,7 @@ export default function SearchBar() {
       await getMenusByName(searchName);
       applyFilter("전체");
       setFilter("전체");
+      sessionStorage.setItem("searchName", searchName);
       console.log(menus);
     }
   };
@@ -76,6 +79,7 @@ export default function SearchBar() {
         >
           <img
             src="https://cdn-icons-png.flaticon.com/128/2319/2319177.png"
+            alt="fab"
             width={"30px"}
             height={"30px"}
           ></img>

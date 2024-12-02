@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { Row, Col, Stack } from "react-bootstrap";
-import { useMenuContext } from "../Context/MenuContext";
+// import { useMenuContext } from "../Context/MenuContext";
 
 import CustomNavBar from "../Elements/CustomNavBar";
 import DetailTable from "../Elements/MenuDetail/DetailTable";
@@ -30,14 +30,14 @@ export default function MenuDetailPage() {
     },
   };
 
-  const { menu } = useMenuContext();
+  const menu = JSON.parse(sessionStorage.getItem("targetMenu"));
 
   useEffect(() => {}, [menu]);
 
   if (!menu || menu == null) {
     return <h1>오류가 발생했습니다. 이전 페이지로 돌아가주세요.</h1>;
   }
-  const hashTag = menu.HASH_TAG != "" ? "# " + menu.HASH_TAG : "";
+  const hashTag = menu.HASH_TAG !== "" ? "# " + menu.HASH_TAG : "";
 
   return (
     <div>
@@ -61,7 +61,11 @@ export default function MenuDetailPage() {
           <hr></hr>
           <Col md={5}>
             <div className="menu_img_detail">
-              <img src={menu.ATT_FILE_NO_MAIN} className="detail_image" />
+              <img
+                src={menu.ATT_FILE_NO_MAIN}
+                className="detail_image"
+                alt="menu_img"
+              />
             </div>
           </Col>
           <Col md={7}>

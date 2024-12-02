@@ -1,15 +1,12 @@
 import React from "react";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useMenuContext } from "../../Context/MenuContext";
 
 import styles from "../../CSS/MainMenuImage.module.css";
 
 export default function MenuCard({ menu }) {
-  const { setMenu } = useMenuContext();
-
   const handleClick = () => {
-    setMenu(menu);
+    sessionStorage.setItem("targetMenu", JSON.stringify(menu));
   };
 
   return (
@@ -17,7 +14,6 @@ export default function MenuCard({ menu }) {
       <Link
         to="/detailMenu"
         onClick={handleClick}
-        state={menu}
         style={{ textDecoration: "none", color: "#000000" }}
       >
         <div className={styles.square}>

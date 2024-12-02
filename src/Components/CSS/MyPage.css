@@ -1,0 +1,39 @@
+/* MyPage.css */
+
+/* 전체 컨테이너 */
+.mypage-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 요리 플래너 리스트 */
+.recipe-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.recipe-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* 버튼 스타일 */
+.button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.button.primary {
+  background-color: #007bff;
+  margin-right: 10px;
+}
+
+.button.danger {
+  background-color: #dc3545;
+}

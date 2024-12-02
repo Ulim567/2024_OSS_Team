@@ -8,7 +8,7 @@ export default function MenuCard({ menu }) {
   return (
     <Col className="p-3" sm={6} md={4} lg={3} xl={3}>
       <Link
-        to="/detail"
+        to="/detailMenu"
         state={menu}
         style={{ textDecoration: "none", color: "#000000" }}
       >

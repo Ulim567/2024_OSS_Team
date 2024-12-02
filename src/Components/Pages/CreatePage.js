@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/CreatePage.css";  // CSS 파일 경로 수정
+import "../CSS/CreatePage.css"; // CSS 파일 경로 수정
 
 const CreatePage = () => {
   const location = useLocation();
@@ -23,16 +23,18 @@ const CreatePage = () => {
   useEffect(() => {
     // DetailPage에서 전달된 데이터 설정
     if (location.state) {
-      const { selectedMenu, shoppingList, imageUrl } = location.state;
-      setSelectedMenu(selectedMenu || "");
-      setShoppingList(shoppingList || "");
-      setImageUrl(imageUrl || "");
+      const menu = location.state;
+      setSelectedMenu(menu.RCP_NM || "");
+      setShoppingList(menu.RCP_PARTS_DTLS || "");
+      setImageUrl(menu.ATT_FILE_NO_MK || "");
     }
 
     // MockAPI에서 기존 플래너 목록 가져오기
     const fetchPlanners = async () => {
       try {
-        const response = await axios.get("https://672e398e229a881691ef646a.mockapi.io/Mymenu");
+        const response = await axios.get(
+          "https://672e398e229a881691ef646a.mockapi.io/Mymenu"
+        );
         setPlannerList(response.data);
       } catch (error) {
         console.error("플래너 목록 불러오기 오류:", error);
@@ -67,7 +69,10 @@ const CreatePage = () => {
       };
 
       try {
-        await axios.post("https://672e398e229a881691ef646a.mockapi.io/Mymenu", newPlan);
+        await axios.post(
+          "https://672e398e229a881691ef646a.mockapi.io/Mymenu",
+          newPlan
+        );
         alert("새 플래너가 저장되었습니다!");
         navigate("/mypage");
       } catch (error) {
@@ -92,13 +97,18 @@ const CreatePage = () => {
       };
 
       try {
-        const plannerToUpdate = plannerList.find((planner) => planner.id === selectedPlanner);
+        const plannerToUpdate = plannerList.find(
+          (planner) => planner.id === selectedPlanner
+        );
         const updatedRecipes = [...plannerToUpdate.recipes, newRecipe];
 
-        await axios.put(`https://672e398e229a881691ef646a.mockapi.io/Mymenu/${selectedPlanner}`, {
-          ...plannerToUpdate,
-          recipes: updatedRecipes,
-        });
+        await axios.put(
+          `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${selectedPlanner}`,
+          {
+            ...plannerToUpdate,
+            recipes: updatedRecipes,
+          }
+        );
 
         alert("요리가 추가되었습니다!");
         navigate("/mypage");
@@ -123,11 +133,17 @@ const CreatePage = () => {
 
   return (
     <div className="create-page-container">
-      <h2 className="create-page-title">{mode === "new" ? "새 플래너 만들기" : "플래너에 요리 추가하기"}</h2>
+      <h2 className="create-page-title">
+        {mode === "new" ? "새 플래너 만들기" : "플래너에 요리 추가하기"}
+      </h2>
 
       <div className="create-page-button-container">
-        <button className="create-page-button" onClick={() => setMode("new")}>새 플래너 만들기</button>
-        <button className="create-page-button" onClick={() => setMode("add")}>플래너에 요리 추가하기</button>
+        <button className="create-page-button" onClick={() => setMode("new")}>
+          새 플래너 만들기
+        </button>
+        <button className="create-page-button" onClick={() => setMode("add")}>
+          플래너에 요리 추가하기
+        </button>
       </div>
 
       {mode === "new" && (
@@ -158,7 +174,11 @@ const CreatePage = () => {
       {mode === "add" && (
         <div>
           <label className="create-page-label">플래너 선택:</label>
-          <select className="create-page-select" value={selectedPlanner} onChange={(e) => setSelectedPlanner(e.target.value)}>
+          <select
+            className="create-page-select"
+            value={selectedPlanner}
+            onChange={(e) => setSelectedPlanner(e.target.value)}
+          >
             <option value="">플래너를 선택하세요</option>
             {plannerList.map((planner) => (
               <option key={planner.id} value={planner.id}>
@@ -171,14 +191,22 @@ const CreatePage = () => {
 
       <div>
         <label className="create-page-label">정한 메뉴:</label>
-        <input className="create-page-input" type="text" value={selectedMenu} readOnly />
+        <input
+          className="create-page-input"
+          type="text"
+          value={selectedMenu}
+          readOnly
+        />
       </div>
 
       {/* 재료 정보 리스트로 표시 */}
       <div>
         <label className="create-page-label">재료 정보:</label>
         <ul className="create-page-list">
-          {shoppingList && shoppingList.split(",").map((item, index) => formatShoppingList(item))}
+          {shoppingList &&
+            shoppingList
+              .split(",")
+              .map((item, index) => formatShoppingList(item))}
         </ul>
       </div>
 
@@ -193,7 +221,9 @@ const CreatePage = () => {
               e.preventDefault(); // 기본 Enter 동작 방지
               const value = e.target.value.trim();
               if (value) {
-                setCustomShoppingList((prev) => (prev ? `${prev}\n${value}` : value)); // 리스트에 추가
+                setCustomShoppingList((prev) =>
+                  prev ? `${prev}\n${value}` : value
+                ); // 리스트에 추가
               }
               e.target.value = ""; // 입력창 초기화
             }
@@ -231,7 +261,7 @@ const CreatePage = () => {
               ))}
         </ul>
       </div>
-      
+
       <div>
         <label className="create-page-label">인분 수:</label>
         <input
@@ -254,9 +284,15 @@ const CreatePage = () => {
       </div>
       <div>
         <label className="create-page-label">메모:</label>
-        <textarea className="create-page-textarea" value={memo} onChange={(e) => setMemo(e.target.value)} />
+        <textarea
+          className="create-page-textarea"
+          value={memo}
+          onChange={(e) => setMemo(e.target.value)}
+        />
       </div>
-      <button className="create-page-submit-button" onClick={handleSubmit}>저장하기</button>
+      <button className="create-page-submit-button" onClick={handleSubmit}>
+        저장하기
+      </button>
     </div>
   );
 };

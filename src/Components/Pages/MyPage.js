@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/MyPage.css"; // CSS 파일 임포트
+import "../CSS/MyPage.css"; // CSS 파일 임포트
 
 const MyPage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -44,16 +44,12 @@ const MyPage = () => {
               <h3>{recipe.title}</h3>
               <p>
                 <strong>정한 메뉴:</strong>{" "}
-                {recipe.recipes && recipe.recipes.length > 0 ? (
-                  recipe.recipes
-                    .map((item) => item.selectedMenu)
-                    .join(", ") // 여러 메뉴를 쉼표로 구분
-                ) : (
-                  "메뉴 정보가 없습니다"
-                )}
+                {recipe.recipes && recipe.recipes.length > 0
+                  ? recipe.recipes.map((item) => item.selectedMenu).join(", ") // 여러 메뉴를 쉼표로 구분
+                  : "메뉴 정보가 없습니다"}
               </p>
               <button
-                onClick={() => navigate(`/detailpage/${recipe.id}`)}
+                onClick={() => navigate(`/detail/${recipe.id}`)}
                 className="button primary"
               >
                 상세보기

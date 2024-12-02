@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/DetailPage.css";
+import "../CSS/DetailPage.css";
 
 const DetailPage = () => {
   const { id } = useParams(); // URL에서 플래너 ID 가져오기
@@ -119,7 +119,8 @@ const DetailPage = () => {
               <strong>인분 수:</strong> {recipe.servings}인분
             </p>
             <p>
-              <strong>예산:</strong> {recipe.budget ? `${recipe.budget}원` : "미입력"}
+              <strong>예산:</strong>{" "}
+              {recipe.budget ? `${recipe.budget}원` : "미입력"}
             </p>
             <p>
               <strong>메모:</strong> {recipe.memo || "메모가 없습니다."}

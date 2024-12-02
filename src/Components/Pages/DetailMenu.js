@@ -30,7 +30,7 @@ const DetailMenu = () => {
       const { RCP_NM, RCP_PARTS_DTLS, ATT_FILE_NO_MK } = menuData;
 
       // CreatePage로 데이터 전달
-      navigate("/createpage", {
+      navigate("/create", {
         state: {
           selectedMenu: RCP_NM,
           shoppingList: RCP_PARTS_DTLS,
@@ -53,14 +53,18 @@ const DetailMenu = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h2>DetailMenu</h2>
-      <div style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}>
+      <div
+        style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}
+      >
         <img
           src={menuData.ATT_FILE_NO_MK}
           alt="요리 이미지"
           style={{ maxWidth: "100%", height: "auto" }}
         />
         <h3>{menuData.RCP_NM}</h3>
-        <p><strong>재료:</strong> {menuData.RCP_PARTS_DTLS}</p>
+        <p>
+          <strong>재료:</strong> {menuData.RCP_PARTS_DTLS}
+        </p>
         <button onClick={handleSelectMenu}>이 메뉴 선택</button>
       </div>
     </div>

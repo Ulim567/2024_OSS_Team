@@ -1,15 +1,34 @@
 import React from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
+import { Link } from "react-router";
 
 export default function CustomNavBar() {
   return (
     <Navbar bg="light" data-bs-theme="light" sticky="top">
-      <Container>
-        <Navbar.Brand href="#home">Menu</Navbar.Brand>
+      <Container style={{ height: "50px" }}>
+        <Navbar.Brand
+          as={Link}
+          to={"/"}
+          onClick={() => {
+            window.location.replace("/");
+          }}
+        >
+          Menu
+        </Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
+          <Nav.Link
+            as={Link}
+            to={"/"}
+            onClick={() => {
+              window.location.replace("/");
+            }}
+          >
+            {" "}
+            Home
+          </Nav.Link>
+          <Nav.Link as={Link} to={"/mypage"}>
+            MyPage
+          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>

@@ -18,7 +18,7 @@ const CreatePage = () => {
       boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.15)",
     },
     grayContainer: {
-      backgroundColor: "#eeeeee",
+      backgroundColor: "#f0efeb",
     },
     carousel_container: {
       maxWidth: "500px",
@@ -146,7 +146,7 @@ const CreatePage = () => {
     <div>
       <CustomNavBar></CustomNavBar>
       <div style={styles.detail_main_container}>
-        <h1 className="py-3 m-0 fs-2 fw-bold">
+        <h1 className="py-3 m-0 mt-3 fs-2 fw-bold">
           {mode === "new" ? "새 플래너 만들기" : "플래너에 요리 추가하기"}
         </h1>
         <hr
@@ -159,7 +159,7 @@ const CreatePage = () => {
             {mode === "add" && (
               <Button
                 className="me-3"
-                variant="outline-primary"
+                variant="outline-success"
                 onClick={() => setMode("new")}
               >
                 새 플래너 만들기
@@ -167,7 +167,7 @@ const CreatePage = () => {
             )}
 
             {mode === "new" && (
-              <Button variant="outline-primary" onClick={() => setMode("add")}>
+              <Button variant="outline-success" onClick={() => setMode("add")}>
                 플래너에 요리 추가하기
               </Button>
             )}
@@ -252,12 +252,7 @@ const CreatePage = () => {
               margin: "0 0 16",
             }}
           >
-            <div
-              className="p-3 mb-4"
-              style={{
-                backgroundColor: "#eeeeee",
-              }}
-            >
+            <div className="p-3 mb-4" style={styles.grayContainer}>
               {shoppingList}
             </div>
           </div>
@@ -294,7 +289,7 @@ const CreatePage = () => {
               margin: "0 0 16",
             }}
           >
-            <div className="p-3 mb-4" style={{ backgroundColor: "#eeeeee" }}>
+            <div className="p-3 mb-4" style={styles.grayContainer}>
               <ul className="m-0">
                 {(!customShoppingList ||
                   customShoppingList.split("\n").filter((item) => item.trim())
@@ -311,7 +306,7 @@ const CreatePage = () => {
                           <div className="ms-auto">
                             <Button
                               className="p-1 m-0"
-                              variant="danger"
+                              variant="outline-danger"
                               onClick={() => {
                                 // 해당 항목 삭제
                                 setCustomShoppingList((prev) =>
@@ -383,6 +378,7 @@ const CreatePage = () => {
             className="w-100 py-2"
             variant="success"
             onClick={handleSubmit}
+            style={{ backgroundColor: "#769a73" }}
           >
             저장하기
           </Button>

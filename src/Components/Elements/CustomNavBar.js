@@ -4,9 +4,15 @@ import { Link } from "react-router";
 
 export default function CustomNavBar() {
   return (
-    <Navbar bg="light" data-bs-theme="light" sticky="top">
-      <Container style={{ height: "50px" }}>
+    <Navbar
+      // bg="light"
+      data-bs-theme="light"
+      sticky="top"
+      style={{ backgroundColor: "#fbc4ab" }}
+    >
+      <Container style={{ height: "70px" }}>
         <Navbar.Brand
+          className="fw-bold"
           as={Link}
           to={"/"}
           onClick={() => {
@@ -17,6 +23,7 @@ export default function CustomNavBar() {
         </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link
+            className="fw-semibold"
             as={Link}
             to={"/"}
             onClick={() => {
@@ -26,7 +33,7 @@ export default function CustomNavBar() {
             {" "}
             Home
           </Nav.Link>
-          <Nav.Link as={Link} to={"/mypage"}>
+          <Nav.Link as={Link} to={"/mypage"} className="fw-semibold">
             MyPage
           </Nav.Link>
         </Nav>

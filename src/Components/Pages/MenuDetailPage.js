@@ -22,7 +22,7 @@ export default function MenuDetailPage() {
       boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.15)",
     },
     grayContainer: {
-      backgroundColor: "#eeeeee",
+      backgroundColor: "#f0efeb",
     },
     carousel_container: {
       maxWidth: "500px",

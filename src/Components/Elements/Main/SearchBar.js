@@ -88,7 +88,14 @@ export default function SearchBar() {
       <Stack direction="horizontal" gap={3}>
         <FilterButtons filter={filter} filterMenus={filterMenus} />
       </Stack>
-      <hr className="my-3"></hr>
+      <hr
+        className="my-3"
+        style={{
+          border: "0",
+          height: "1.5px",
+          backgroundColor: "#754f44",
+        }}
+      ></hr>
     </Form>
   );
 }

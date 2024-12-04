@@ -4,21 +4,10 @@ import style from "../../CSS/FilterButton.module.css";
 
 export default function FilterButton({ text, isSelected, onClick }) {
   if (isSelected) {
-    return (
-      <Button
-        variant="outline-secondary"
-        className={style.filterButtonSelected}
-      >
-        {text}
-      </Button>
-    );
+    return <Button className={style.filterButtonSelected}>{text}</Button>;
   }
   return (
-    <Button
-      variant="outline-secondary"
-      className={style.filterButton}
-      onClick={onClick}
-    >
+    <Button className={style.filterButton} onClick={onClick}>
       {text}
     </Button>
   );

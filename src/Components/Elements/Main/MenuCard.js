@@ -23,7 +23,7 @@ export default function MenuCard({ menu }) {
             className={styles.image}
           />
         </div>
-        <h4 className="fs-6 fw-light m-0 mt-3" style={{ color: "#4f4f4f" }}>
+        <h4 className="fs-6 fw-light m-0 mt-3" style={{ color: "#574241" }}>
           분류 &gt; <span className="fw-bold">{menu.RCP_PAT2}</span>
         </h4>
         <h4 className="fs-5 fw-semibold m-0 mt-2">{menu.RCP_NM}</h4>

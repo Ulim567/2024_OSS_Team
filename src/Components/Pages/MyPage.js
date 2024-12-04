@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, Row, Col, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -66,9 +66,7 @@ const MyPage = () => {
   const addContent = ({ date }) => {
     // 해당 날짜(하루)에 추가할 컨텐츠의 배열
     const contents = [];
-
     const dateString = moment(date).format("YYYY-MM-DD");
-
     const recipeCount = recipes.filter(
       (recipe) => moment(recipe.date).format("YYYY-MM-DD") === dateString
     ).length;
@@ -77,7 +75,7 @@ const MyPage = () => {
       contents.push(<div key="dot" className="dot" />);
     }
 
-    return <div style={{ textAlign: "center" }}>{contents}</div>;
+    return <span style={{ textAlign: "center" }}>{contents}</span>;
   };
 
   // 데이터 로딩 중일 때
@@ -89,38 +87,123 @@ const MyPage = () => {
     <>
       <CustomNavBar></CustomNavBar>
       <div style={styles.container}>
-        <h1 className="py-3 m-0 fs-2 fw-bold">나의 요리 플래너</h1>
-        <hr
-          className="m-0 mb-4 p-0"
-          style={{ border: "0", height: "3px", background: "#6e6e6e" }}
-        ></hr>
+        <div className="mx-3">
+          <h1 className="py-3 m-0 mt-3 fs-2 fw-bold">나의 요리 플래너</h1>
+          <hr
+            className="m-0 mb-4 p-0"
+            style={{ border: "0", height: "3px", background: "#6e6e6e" }}
+          ></hr>
 
-        <Row>
-          <Col lg={4} className="p-0">
-            <div className="me-4">
-              <Calendar
-                onChange={changeModeToDate}
-                value={date}
-                tileContent={addContent}
-              />
-            </div>
-            <Button
-              className="mt-3 d-flex justify-content-center"
-              variant="outline-primary"
-              onClick={changeModeToAll}
-            >
-              전체 보기
-            </Button>
-          </Col>
-          <Col>
-            <ul className="m-0 p-0">
-              {isAll ? (
-                recipes.length === 0 ? (
+          <Row>
+            <Col lg={4} className="p-0 mx-4">
+              <div className="d-flex justify-content-center mt-5 mb-3">
+                <Calendar
+                  onChange={changeModeToDate}
+                  value={date}
+                  tileContent={addContent}
+                />
+              </div>
+              <div className="d-flex justify-content-center">
+                <Button
+                  className="mt-3 d-flex justify-content-center"
+                  variant="outline-success"
+                  onClick={changeModeToAll}
+                >
+                  전체 보기
+                </Button>
+              </div>
+            </Col>
+            <Col lg={1}></Col>
+            <Col>
+              <ul className="m-0 p-0 px-3">
+                {isAll ? (
+                  recipes.length === 0 ? (
+                    <h4 className="fs-4 text-center my-3">
+                      날짜에 해당하는 플래너가 없습니다.
+                    </h4>
+                  ) : (
+                    recipes
+                      .slice()
+                      .sort((a, b) => new Date(a.date) - new Date(b.date))
+                      .map((recipe, index, array) => (
+                        <Row key={recipe.id}>
+                          <div>
+                            {(index === 0 ||
+                              new Date(array[index - 1].date).toDateString() !==
+                                new Date(recipe.date).toDateString()) && (
+                              <div className="fs-4 px-3 my-2">
+                                {recipe.date}
+                              </div>
+                            )}
+                          </div>
+                          <Col>
+                            <Card className="mb-2">
+                              <Card.Body>
+                                <Card.Title className="fw-bold">
+                                  {recipe.title}
+                                </Card.Title>
+                                <Card.Text>
+                                  <div>
+                                    {recipe.recipes && recipe.recipes.length > 0
+                                      ? recipe.recipes
+                                          .map((item) => item.selectedMenu)
+                                          .join(", ")
+                                      : "메뉴 정보가 없습니다"}
+                                  </div>
+                                  <div>가격 : {recipe.budget}</div>
+                                  <div>인분 : {recipe.servings}</div>
+                                </Card.Text>
+                                <Stack direction="horizontal">
+                                  <Button
+                                    className="me-2 ms-auto"
+                                    variant="outline-success"
+                                    onClick={() =>
+                                      navigate(`/detail/${recipe.id}`)
+                                    }
+                                  >
+                                    상세보기
+                                  </Button>
+                                  <Button
+                                    variant="outline-success"
+                                    onClick={async () => {
+                                      const confirmDelete = window.confirm(
+                                        `정말로 "${recipe.title}" 항목을 삭제하시겠습니까?`
+                                      );
+                                      if (confirmDelete) {
+                                        try {
+                                          await axios.delete(
+                                            `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${recipe.id}`
+                                          );
+                                          setRecipes((prevRecipes) =>
+                                            prevRecipes.filter(
+                                              (item) => item.id !== recipe.id
+                                            )
+                                          );
+                                          alert("삭제되었습니다.");
+                                        } catch (error) {
+                                          console.error(
+                                            "삭제 중 오류 발생:",
+                                            error
+                                          );
+                                        }
+                                      }
+                                    }}
+                                  >
+                                    삭제
+                                  </Button>
+                                </Stack>
+                              </Card.Body>
+                            </Card>
+                          </Col>
+                        </Row>
+                      ))
+                  )
+                ) : filteredRecipes.length === 0 ? (
                   <h4 className="fs-4 text-center my-3">
-                    날짜에 해당하는 플래너가 없습니다.
+                    날짜에 해당하는 계획이 없습니다.
                   </h4>
                 ) : (
-                  recipes
+                  filteredRecipes
                     .slice()
                     .sort((a, b) => new Date(a.date) - new Date(b.date))
                     .map((recipe, index, array) => (
@@ -145,116 +228,55 @@ const MyPage = () => {
                                       .join(", ")
                                   : "메뉴 정보가 없습니다"}
                               </Card.Text>
-                              <Button
-                                className="me-2"
-                                variant="primary"
-                                onClick={() => navigate(`/detail/${recipe.id}`)}
-                              >
-                                상세보기
-                              </Button>
-                              <Button
-                                onClick={async () => {
-                                  const confirmDelete = window.confirm(
-                                    `정말로 "${recipe.title}" 항목을 삭제하시겠습니까?`
-                                  );
-                                  if (confirmDelete) {
-                                    try {
-                                      await axios.delete(
-                                        `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${recipe.id}`
-                                      );
-                                      setRecipes((prevRecipes) =>
-                                        prevRecipes.filter(
-                                          (item) => item.id !== recipe.id
-                                        )
-                                      );
-                                      alert("삭제되었습니다.");
-                                    } catch (error) {
-                                      console.error(
-                                        "삭제 중 오류 발생:",
-                                        error
-                                      );
-                                    }
+                              <Stack direction="horizontal">
+                                <Button
+                                  className="me-2 ms-auto"
+                                  variant="outline-success"
+                                  onClick={() =>
+                                    navigate(`/detail/${recipe.id}`)
                                   }
-                                }}
-                              >
-                                삭제
-                              </Button>
+                                >
+                                  상세보기
+                                </Button>
+                                <Button
+                                  variant="outline-success"
+                                  onClick={async () => {
+                                    const confirmDelete = window.confirm(
+                                      `정말로 "${recipe.title}" 항목을 삭제하시겠습니까?`
+                                    );
+                                    if (confirmDelete) {
+                                      try {
+                                        await axios.delete(
+                                          `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${recipe.id}`
+                                        );
+                                        setRecipes((prevRecipes) =>
+                                          prevRecipes.filter(
+                                            (item) => item.id !== recipe.id
+                                          )
+                                        );
+                                        alert("삭제되었습니다.");
+                                      } catch (error) {
+                                        console.error(
+                                          "삭제 중 오류 발생:",
+                                          error
+                                        );
+                                      }
+                                    }
+                                  }}
+                                >
+                                  삭제
+                                </Button>
+                              </Stack>
                             </Card.Body>
                           </Card>
                         </Col>
                       </Row>
                     ))
-                )
-              ) : filteredRecipes.length === 0 ? (
-                <h4 className="fs-4 text-center my-3">
-                  날짜에 해당하는 계획이 없습니다.
-                </h4>
-              ) : (
-                filteredRecipes
-                  .slice()
-                  .sort((a, b) => new Date(a.date) - new Date(b.date))
-                  .map((recipe, index, array) => (
-                    <Row key={recipe.id}>
-                      <div>
-                        {(index === 0 ||
-                          new Date(array[index - 1].date).toDateString() !==
-                            new Date(recipe.date).toDateString()) && (
-                          <div className="fs-4 px-3 my-2">{recipe.date}</div>
-                        )}
-                      </div>
-                      <Col>
-                        <Card className="mb-2">
-                          <Card.Body>
-                            <Card.Title className="fw-bold">
-                              {recipe.title}
-                            </Card.Title>
-                            <Card.Text>
-                              {recipe.recipes && recipe.recipes.length > 0
-                                ? recipe.recipes
-                                    .map((item) => item.selectedMenu)
-                                    .join(", ")
-                                : "메뉴 정보가 없습니다"}
-                            </Card.Text>
-                            <Button
-                              className="me-2"
-                              variant="primary"
-                              onClick={() => navigate(`/detail/${recipe.id}`)}
-                            >
-                              상세보기
-                            </Button>
-                            <Button
-                              onClick={async () => {
-                                const confirmDelete = window.confirm(
-                                  `정말로 "${recipe.title}" 항목을 삭제하시겠습니까?`
-                                );
-                                if (confirmDelete) {
-                                  try {
-                                    await axios.delete(
-                                      `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${recipe.id}`
-                                    );
-                                    setRecipes((prevRecipes) =>
-                                      prevRecipes.filter(
-                                        (item) => item.id !== recipe.id
-                                      )
-                                    );
-                                    alert("삭제되었습니다.");
-                                  } catch (error) {
-                                    console.error("삭제 중 오류 발생:", error);
-                                  }
-                                }
-                              }}
-                            >
-                              삭제
-                            </Button>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    </Row>
-                  ))
-              )}
-            </ul>
-          </Col>
-        </Row>
+                )}
+              </ul>
+            </Col>
+          </Row>
+        </div>
       </div>
     </>
   );

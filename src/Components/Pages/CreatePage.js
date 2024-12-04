@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Row, Form, InputGroup, Stack } from "react-bootstrap";
+import { Button, Row, Form, InputGroup, Stack, Col } from "react-bootstrap";
 import axios from "axios";
 import CustomNavBar from "../Elements/CustomNavBar";
 import "../CSS/CreatePage.css";
@@ -41,7 +41,6 @@ const CreatePage = () => {
   const [plannerList, setPlannerList] = useState([]); // 기존 플래너 목록
   const [selectedPlanner, setSelectedPlanner] = useState(""); // 요리를 추가할 플래너 선택
 
-  // const { menu } = useMenuContext();
   const menu = JSON.parse(sessionStorage.getItem("targetMenu"));
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const CreatePage = () => {
     };
 
     fetchPlanners();
-  }, [menu]);
+  }, []);
 
   const handleSubmit = async () => {
     if (mode === "new") {
@@ -143,18 +142,6 @@ const CreatePage = () => {
     }
   };
 
-  // 재료 리스트 표시 형식
-  const formatShoppingList = (item) => {
-    const parts = item.split(" "); // 공백 기준으로 분리
-    return (
-      <li key={item}>
-        {parts.map((part, index) => (
-          <span key={index}>{part} </span> // 각 부분 출력
-        ))}
-      </li>
-    );
-  };
-
   return (
     <div>
       <CustomNavBar></CustomNavBar>
@@ -187,8 +174,8 @@ const CreatePage = () => {
           </div>
 
           {mode === "new" && (
-            <>
-              <div>
+            <Row>
+              <Col>
                 <Form.Label className="m-0" htmlFor="title">
                   제목:
                 </Form.Label>
@@ -202,16 +189,8 @@ const CreatePage = () => {
                     placeholder="예: 친구들과의 식사"
                   />
                 </InputGroup>
-                {/* <label className="create-page-label">제목:</label>
-                <input
-                  className="create-page-input"
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="예: 친구들과의 식사"
-                /> */}
-              </div>
-              <div>
+              </Col>
+              <Col xs={3}>
                 <Form.Label className="m-0" htmlFor="date">
                   날짜:
                 </Form.Label>
@@ -225,20 +204,12 @@ const CreatePage = () => {
                     min={new Date().toISOString().split("T")[0]}
                   />
                 </InputGroup>
-                {/* <label className="create-page-label">날짜:</label>
-                <input
-                  className="create-page-input"
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  min={new Date().toISOString().split("T")[0]}
-                /> */}
-              </div>
-            </>
+              </Col>
+            </Row>
           )}
 
           {mode === "add" && (
-            <div>
+            <>
               <Form.Label className="m-0" htmlFor="planner">
                 플래너 선택:
               </Form.Label>
@@ -257,87 +228,47 @@ const CreatePage = () => {
                   ))}
                 </Form.Select>
               </InputGroup>
-              {/* <label className="create-page-label">플래너 선택:</label>
-              <select
-                className="create-page-select"
-                value={selectedPlanner}
-                onChange={(e) => setSelectedPlanner(e.target.value)}
-              >
-                <option value="">플래너를 선택하세요</option>
-                {plannerList.map((planner) => (
-                  <option key={planner.id} value={planner.id}>
-                    {planner.title}
-                  </option>
-                ))}
-              </select> */}
-            </div>
+            </>
           )}
 
-          <div>
-            <Form.Label className="m-0" htmlFor="menu">
-              정한 메뉴:
-            </Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                id="text"
-                className="create-page-input"
-                type="text"
-                value={selectedMenu}
-                readOnly
-              />
-            </InputGroup>
-
-            {/* <label className="create-page-label">정한 메뉴:</label>
-            <input
+          <Form.Label className="m-0" htmlFor="menu">
+            정한 메뉴:
+          </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              id="text"
               className="create-page-input"
               type="text"
               value={selectedMenu}
               readOnly
-            /> */}
-          </div>
+            />
+          </InputGroup>
 
           {/* 재료 정보 리스트로 표시 */}
-          <div>
-            <Form.Label>재료 정보:</Form.Label>
-            <div className="p-3 mb-4" style={{ backgroundColor: "#eeeeee" }}>
+          <Form.Label>재료 정보:</Form.Label>
+          <div
+            style={{
+              padding: "0 12",
+              margin: "0 0 16",
+            }}
+          >
+            <div
+              className="p-3 mb-4"
+              style={{
+                backgroundColor: "#eeeeee",
+              }}
+            >
               {shoppingList}
             </div>
-            {/* <label className="create-page-label">재료 정보:</label>
-            <ul className="create-page-list">
-              {shoppingList &&
-                shoppingList
-                  .split(",")
-                  .map((item, index) => formatShoppingList(item))}
-            </ul> */}
           </div>
 
           {/* 장 볼 리스트 입력란 추가 */}
-          <div>
-            <Form.Label className="m-0" htmlFor="recipeList">
-              장 볼 리스트:
-            </Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                id="recipeList"
-                className="create-page-input"
-                type="text"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                    e.preventDefault(); // 기본 Enter 동작 방지
-                    const value = e.target.value.trim();
-                    if (value) {
-                      setCustomShoppingList((prev) =>
-                        prev ? `${prev}\n${value}` : value
-                      ); // 리스트에 추가
-                    }
-                    e.target.value = ""; // 입력창 초기화
-                  }
-                }}
-                placeholder="장 볼 리스트를 입력 후 Enter를 눌러 추가하세요."
-              />
-            </InputGroup>
-            {/* <label className="create-page-label">장 볼 리스트:</label>
-            <input
+          <Form.Label className="m-0" htmlFor="recipeList">
+            장 볼 리스트:
+          </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              id="recipeList"
               className="create-page-input"
               type="text"
               onKeyDown={(e) => {
@@ -353,13 +284,22 @@ const CreatePage = () => {
                 }
               }}
               placeholder="장 볼 리스트를 입력 후 Enter를 눌러 추가하세요."
-            /> */}
-          </div>
+            />
+          </InputGroup>
 
           {/* 장 볼 리스트도 리스트 형태로 표시 */}
-          <div>
+          <div
+            style={{
+              padding: "0 12",
+              margin: "0 0 16",
+            }}
+          >
             <div className="p-3 mb-4" style={{ backgroundColor: "#eeeeee" }}>
               <ul className="m-0">
+                {(!customShoppingList ||
+                  customShoppingList.split("\n").filter((item) => item.trim())
+                    .length === 0) && <li>장 볼 리스트가 없습니다</li>}
+
                 {customShoppingList &&
                   customShoppingList
                     .split("\n")
@@ -390,103 +330,55 @@ const CreatePage = () => {
                     ))}
               </ul>
             </div>
-            {/* <label className="create-page-label">
-              장 볼 리스트 (입력한 것):
-            </label>
-            <ul className="create-page-list">
-              {customShoppingList &&
-                customShoppingList
-                  .split("\n")
-                  .filter((item) => item.trim()) // 빈 줄 제거
-                  .map((item, index) => (
-                    <li key={index} className="shopping-list-item">
-                      {item}
-                      <button
-                        className="delete-button"
-                        onClick={() => {
-                          // 해당 항목 삭제
-                          setCustomShoppingList((prev) =>
-                            prev
-                              .split("\n")
-                              .filter((_, i) => i !== index) // index에 해당하는 항목 제외
-                              .join("\n")
-                          );
-                        }}
-                      >
-                        삭제
-                      </button>
-                    </li>
-                  ))}
-            </ul> */}
           </div>
 
-          <div>
-            <Form.Label className="m-0" htmlFor="count">
-              인분 수:
-            </Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                id="count"
-                className="create-page-input"
-                type="number"
-                value={servings}
-                min="1"
-                onChange={(e) => setServings(e.target.value)}
-              />
-            </InputGroup>
-            {/* <label className="create-page-label">인분 수:</label>
-            <input
-              className="create-page-input"
-              type="number"
-              value={servings}
-              min="1"
-              onChange={(e) => setServings(e.target.value)}
-            /> */}
-          </div>
-          <div>
-            <Form.Label className="m-0" htmlFor="price">
-              예산:
-            </Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                id="price"
-                className="create-page-input"
-                type="number"
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-                placeholder="숫자만 입력"
-              />
-            </InputGroup>
-            {/* <label className="create-page-label">예산:</label>
-            <input
-              className="create-page-input"
-              type="number"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              placeholder="숫자만 입력"
-            /> */}
-          </div>
-          <div>
-            <Form.Label className="m-0" htmlFor="memo">
-              메모:
-            </Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                as="textarea"
-                rows={3}
-                id="memo"
-                className="create-page-textarea"
-                value={memo}
-                onChange={(e) => setMemo(e.target.value)}
-              />
-            </InputGroup>
-            {/* <label className="create-page-label">메모:</label>
-            <textarea
+          <Row>
+            <Col>
+              <Form.Label className="m-0" htmlFor="count">
+                인분 수:
+              </Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  id="count"
+                  className="create-page-input"
+                  type="number"
+                  value={servings}
+                  min="1"
+                  onChange={(e) => setServings(e.target.value)}
+                />
+              </InputGroup>
+            </Col>
+            <Col>
+              <Form.Label className="m-0" htmlFor="price">
+                예산:
+              </Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  id="price"
+                  className="create-page-input"
+                  type="number"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  placeholder="숫자만 입력"
+                />
+              </InputGroup>
+            </Col>
+          </Row>
+
+          <Form.Label className="m-0" htmlFor="memo">
+            메모:
+          </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              as="textarea"
+              rows={3}
+              id="memo"
               className="create-page-textarea"
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
-            /> */}
-          </div>
+            />
+          </InputGroup>
+
           <Button
             className="w-100 py-2"
             variant="success"

@@ -19,7 +19,7 @@ export default function CustomNavBar() {
             window.location.replace("/");
           }}
         >
-          Menu
+          TO DISH
         </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link

@@ -1,10 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Router from "./Components/Router";
-// import Test from "./Components/Pages/Test";
 
 function App() {
-  return <Router></Router>;
-  // return <Test></Test>;
+  const style = {
+    display: "flex",
+    minHeight: "100vh",
+    flexDirection: "column",
+  };
+
+  return (
+    <div style={style}>
+      <Router></Router>
+    </div>
+  );
 }
 
 export default App;

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../CSS/Calendar.css";
-import CustomNavBar from "../Elements/CustomNavBar";
 import moment from "moment";
 import axios from "axios";
 import "../CSS/MyPage.css"; // CSS 파일 임포트
@@ -15,6 +14,7 @@ const MyPage = () => {
       maxWidth: "1200px", // 최대 너비 (1200px 고정)
       width: "100%", // 기본적으로 100% 너비 사용
       margin: "0 auto", // 가로 중앙 정렬
+      marginBottom: "20px",
     },
   };
 
@@ -85,7 +85,6 @@ const MyPage = () => {
 
   return (
     <>
-      <CustomNavBar></CustomNavBar>
       <div style={styles.container}>
         <div className="mx-3">
           <h1 className="py-3 m-0 mt-3 fs-2 fw-bold">나의 요리 플래너</h1>
@@ -95,8 +94,8 @@ const MyPage = () => {
           ></hr>
 
           <Row>
-            <Col lg={4} className="p-0 mx-4">
-              <div className="d-flex justify-content-center mt-5 mb-3">
+            <Col lg={5}>
+              <div className="d-flex justify-content-center mt-5 mb-3 px-3">
                 <Calendar
                   onChange={changeModeToDate}
                   value={date}
@@ -113,7 +112,6 @@ const MyPage = () => {
                 </Button>
               </div>
             </Col>
-            <Col lg={1}></Col>
             <Col>
               <ul className="m-0 p-0 px-3">
                 {isAll ? (

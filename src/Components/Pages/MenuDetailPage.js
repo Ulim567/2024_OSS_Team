@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Row, Col, Stack } from "react-bootstrap";
 // import { useMenuContext } from "../Context/MenuContext";
 
-import CustomNavBar from "../Elements/CustomNavBar";
 import DetailTable from "../Elements/MenuDetail/DetailTable";
 import RecipeCarousel from "../Elements/MenuDetail/RecipeCarousel";
 import FAB from "../Elements/MenuDetail/CustomFAB";
@@ -42,7 +41,6 @@ export default function MenuDetailPage() {
   return (
     <div>
       <FAB></FAB>
-      <CustomNavBar></CustomNavBar>
       <div style={styles.detail_main_container}>
         <h1 className="py-3 m-0 fs-2 fw-bold">레시피 상세</h1>
         <hr

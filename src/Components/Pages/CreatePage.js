@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Row, Form, InputGroup, Stack, Col } from "react-bootstrap";
+import {
+  Button,
+  Row,
+  Form,
+  InputGroup,
+  Stack,
+  Col,
+  CloseButton,
+} from "react-bootstrap";
 import axios from "axios";
-import CustomNavBar from "../Elements/CustomNavBar";
 import "../CSS/CreatePage.css";
 
 const CreatePage = () => {
@@ -144,7 +151,6 @@ const CreatePage = () => {
 
   return (
     <div>
-      <CustomNavBar></CustomNavBar>
       <div style={styles.detail_main_container}>
         <h1 className="py-3 m-0 mt-3 fs-2 fw-bold">
           {mode === "new" ? "새 플래너 만들기" : "플래너에 요리 추가하기"}
@@ -304,9 +310,8 @@ const CreatePage = () => {
                         <Stack direction="horizontal">
                           <div>{item}</div>
                           <div className="ms-auto">
-                            <Button
+                            <CloseButton
                               className="p-1 m-0"
-                              variant="outline-danger"
                               onClick={() => {
                                 // 해당 항목 삭제
                                 setCustomShoppingList((prev) =>
@@ -316,9 +321,7 @@ const CreatePage = () => {
                                     .join("\n")
                                 );
                               }}
-                            >
-                              삭제
-                            </Button>
+                            ></CloseButton>
                           </div>
                         </Stack>
                       </li>

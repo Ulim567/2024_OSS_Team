@@ -138,16 +138,21 @@ const DetailPage = () => {
             {/* 재료 정보 */}
             <div>
               <strong>재료 정보:</strong>
-              <ul>
-                {recipe.shoppingList.map((ingredient, idx) => {
-                  const { amount, unit } = splitIngredients(ingredient);
-                  return (
-                    <li key={idx}>
-                      {amount} {unit}
-                    </li>
-                  );
-                })}
-              </ul>
+              <div>
+                <br />
+                {recipe.shoppingList
+                  .map(item => item.trim()) // 각 항목에서 앞뒤 공백을 제거
+                  .join(' ') // 항목들을 공백으로 구분하여 결합
+                  .split('●') // ● 기준으로 항목 분리
+                  .filter(item => item.trim() !== '') // 빈 항목 제거
+                  .map((item, idx) => (
+                    <div key={idx}>
+                      {idx > 0 && ''} {/* 첫 항목을 제외하고는 ● 기호를 붙임 */}
+                      {item}
+                    </div>
+                  ))}
+              </div>
+              <br />
             </div>
 
             {/* 장 볼 리스트 */}

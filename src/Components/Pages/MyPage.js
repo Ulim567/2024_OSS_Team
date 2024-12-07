@@ -148,8 +148,6 @@ const MyPage = () => {
                                           .join(", ")
                                       : "메뉴 정보가 없습니다"}
                                   </div>
-                                  <div>가격 : {recipe.budget}</div>
-                                  <div>인분 : {recipe.servings}</div>
                                 </Card.Text>
                                 <Stack direction="horizontal">
                                   <Button

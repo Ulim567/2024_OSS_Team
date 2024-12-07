@@ -18,6 +18,7 @@ export default function MenuDetailPage() {
       margin: "0 auto",
     },
     shadowBox: {
+      backgroundColor: "#fff",
       boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.15)",
     },
     grayContainer: {

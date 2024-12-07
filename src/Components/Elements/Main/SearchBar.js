@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { InputGroup, Form, Stack } from "react-bootstrap";
 import FilterButtons from "./FilterButtons";
 import useMenu from "../../Status/MenuStatus";
@@ -11,6 +11,10 @@ export default function SearchBar() {
 
   const [filter, setFilter] = useState("전체");
   const applyFilter = useMenu((state) => state.applyFilter);
+
+  const setIsSearching = useMenu((state) => state.setIsSearching);
+
+  const inputRef = useRef(null);
 
   useEffect(() => {}, [filter, menus]);
 
@@ -31,11 +35,14 @@ export default function SearchBar() {
 
     if (searchName.trim() !== "") {
       console.log("Search : " + searchName);
+      inputRef.current.blur();
+      setIsSearching(true);
       await getMenusByName(searchName);
       applyFilter("전체");
       setFilter("전체");
       sessionStorage.setItem("searchName", searchName);
       console.log(menus);
+      setIsSearching(false);
     }
   };
 
@@ -54,6 +61,7 @@ export default function SearchBar() {
         }}
       >
         <Form.Control
+          ref={inputRef}
           className="p-2 ps-3"
           placeholder="Enter menu name"
           aria-label="Menuname"
@@ -77,12 +85,17 @@ export default function SearchBar() {
             border: "none",
           }}
         >
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/2319/2319177.png"
-            alt="fab"
-            width={"30px"}
-            height={"30px"}
-          ></img>
+          <button
+            type="submit"
+            style={{ backgroundColor: "#fff", border: "none" }}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/2319/2319177.png"
+              alt="fab"
+              width={"30px"}
+              height={"30px"}
+            ></img>
+          </button>
         </InputGroup.Text>
       </InputGroup>
       <Stack direction="horizontal" gap={3}>

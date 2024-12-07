@@ -25,14 +25,14 @@ const useMenu = create((set, get) => ({
       const firstTo = Math.min(from + maxFetch - 1, to);
 
       const response1 = await axios.get(
-        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/${from}/${firstTo}`
+        `https://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/${from}/${firstTo}`
       );
       const firstBatch = response1.data.COOKRCP01.row;
 
       let secondBatch = [];
       if (firstTo < to) {
         const response2 = await axios.get(
-          `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/${
+          `https://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/${
             firstTo + 1
           }/${to}`
         );
@@ -49,14 +49,14 @@ const useMenu = create((set, get) => ({
   getMenusByName: async (keyword) => {
     try {
       const response1 = await axios.get(
-        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/0/999/RCP_NM="${keyword}"`
+        `https://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/0/999/RCP_NM="${keyword}"`
       );
 
       let firstBatch = response1.data.COOKRCP01.row;
       if (firstBatch == null) firstBatch = [];
 
       const response2 = await axios.get(
-        `http://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/1000/1136/RCP_NM="${keyword}"`
+        `https://openapi.foodsafetykorea.go.kr/api/${KEY}/COOKRCP01/json/1000/1136/RCP_NM="${keyword}"`
       );
 
       let secondBatch = response2.data.COOKRCP01.row;

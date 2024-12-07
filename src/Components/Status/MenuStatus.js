@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-var KEY = process.env.REACT_APP_RECIPE;
+var KEY = "06b2240508d148a6b6c6";
 
 const useMenu = create((set, get) => ({
   menuNamesForSearch: [],

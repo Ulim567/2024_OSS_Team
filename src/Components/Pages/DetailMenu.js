@@ -27,14 +27,14 @@ const DetailMenu = () => {
 
   const handleSelectMenu = () => {
     if (menuData) {
-      const { RCP_NM, RCP_PARTS_DTLS, ATT_FILE_NO_MK } = menuData;
+      const { RCP_NM, RCP_PARTS_DTLS, ATT_FILE_NO_MAIN } = menuData;
 
       // CreatePage로 데이터 전달
       navigate("/create", {
         state: {
           selectedMenu: RCP_NM,
           shoppingList: RCP_PARTS_DTLS,
-          imageUrl: ATT_FILE_NO_MK,
+          imageUrl: ATT_FILE_NO_MAIN,
         },
       });
     } else {
@@ -57,7 +57,7 @@ const DetailMenu = () => {
         style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}
       >
         <img
-          src={menuData.ATT_FILE_NO_MK}
+          src={menuData.ATT_FILE_NO_MAIN}
           alt="요리 이미지"
           style={{ maxWidth: "100%", height: "auto" }}
         />

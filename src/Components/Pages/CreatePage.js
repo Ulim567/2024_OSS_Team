@@ -57,7 +57,7 @@ const CreatePage = () => {
       // const menu = location.state;
       setSelectedMenu(menu.RCP_NM || "");
       setShoppingList(menu.RCP_PARTS_DTLS || "");
-      setImageUrl(menu.ATT_FILE_NO_MK || "");
+      setImageUrl(menu.ATT_FILE_NO_MAIN || "");
     }
 
     // MockAPI에서 기존 플래너 목록 가져오기

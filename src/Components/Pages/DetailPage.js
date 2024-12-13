@@ -71,33 +71,33 @@ const DetailPage = () => {
 
   const handleDelete = async (recipeIndex) => {
     try {
-      // 현재 플래너 데이터에서 해당 요리를 제외
       const updatedRecipes = planner.recipes.filter((_, index) => index !== recipeIndex);
-      const updatedPlanner = { ...planner, recipes: updatedRecipes };
 
-      // 서버에 업데이트
-      await axios.put(
-        `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${id}`,
-        updatedPlanner
-      );
+      if (updatedRecipes.length === 0) {
+        await axios.delete(
+          `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${id}`
+        );
+        alert("모든 요리가 삭제되었습니다. 플래너도 삭제됩니다.");
+        navigate("/mypage");
+      } else {
+        const updatedPlanner = { ...planner, recipes: updatedRecipes };
+        await axios.put(
+          `https://672e398e229a881691ef646a.mockapi.io/Mymenu/${id}`,
+          updatedPlanner
+        );
 
-      alert("요리가 성공적으로 삭제되었습니다.");
-      setPlanner(updatedPlanner); // 상태 업데이트
+        alert("요리가 성공적으로 삭제되었습니다.");
+        setPlanner(updatedPlanner);
+
+        // 페이지 새로 고침
+        window.location.reload();
+      }
     } catch (error) {
       console.error("요리를 삭제하는 중 오류 발생:", error);
       alert("요리를 삭제하는 중 오류가 발생했습니다.");
     }
   };
 
-  // 재료 정보를 단위와 이름으로 분리하는 함수
-  const splitIngredients = (ingredient) => {
-    const regex = /^(\d+[\.\d]*)\s*(\D+)$/;
-    const match = ingredient.trim().match(regex);
-    if (match) {
-      return { amount: match[1], unit: match[2].trim() };
-    }
-    return { amount: ingredient, unit: "" }; // 단위가 없는 경우
-  };
 
   if (loading) {
     return <div>상세 정보를 불러오는 중...</div>;
@@ -105,7 +105,6 @@ const DetailPage = () => {
 
   return (
     <div className="detail-container">
-      {/* 제목과 날짜 */}
       <div className="header">
         <h1>{planner.title}</h1>
         <span className="date">{planner.date}</span>
@@ -113,7 +112,6 @@ const DetailPage = () => {
 
       {planner.recipes.map((recipe, index) => (
         <div key={index} className="recipe-container">
-          {/* 이미지 및 요리명 섹션 */}
           <div className="image-and-name">
             <div className="image-section">
               {recipe.imageUrl ? (
@@ -126,47 +124,36 @@ const DetailPage = () => {
                 <p>이미지가 없습니다.</p>
               )}
             </div>
-
-            {/* 요리명 */}
             <div className="recipe-name">
               <h3>{recipe.selectedMenu}</h3>
             </div>
           </div>
-
-          {/* 정보 섹션 */}
           <div className="info-section">
-            {/* 재료 정보 */}
             <div>
               <strong>재료 정보:</strong>
               <div>
-                <br />
                 {recipe.shoppingList
-                  .map(item => item.trim()) // 각 항목에서 앞뒤 공백을 제거
-                  .join(' ') // 항목들을 공백으로 구분하여 결합
-                  .split('●') // ● 기준으로 항목 분리
-                  .filter(item => item.trim() !== '') // 빈 항목 제거
+                  .map((item) => item.trim())
+                  .join(" ")
+                  .split("●")
+                  .filter((item) => item.trim() !== "")
                   .map((item, idx) => (
                     <div key={idx}>
-                      {idx > 0 && ''} {/* 첫 항목을 제외하고는 ● 기호를 붙임 */}
                       {item}
                     </div>
                   ))}
               </div>
-              <br />
             </div>
-
-            {/* 장 볼 리스트 */}
             <div>
               <strong>장 볼 리스트:</strong>
               {recipe.customShoppingList.length > 0 ? (
                 <ul className="shopping-list">
                   {recipe.customShoppingList.map((item, idx) => {
-                    // \n으로 항목을 분리
-                    const lines = item.split('\n');
+                    const lines = item.split("\n");
                     return (
                       <span key={idx} className="shopping-list-item">
                         {lines.map((line, lineIdx) => (
-                          <li key={lineIdx}>{line}<br /></li> // 줄바꿈을 위해 <br /> 태그 사용
+                          <li key={lineIdx}>{line}<br /></li>
                         ))}
                       </span>
                     );
@@ -176,9 +163,6 @@ const DetailPage = () => {
                 <p>장 볼 리스트가 비어 있습니다.</p>
               )}
             </div>
-
-
-            {/* 기타 정보 */}
             <p>
               <strong>인분 수:</strong> {recipe.servings}인분
             </p>
@@ -188,20 +172,18 @@ const DetailPage = () => {
             <p>
               <strong>메모:</strong> {recipe.memo || "메모가 없습니다."}
             </p>
-
-            {/* 버튼 그룹 */}
             <div className="button-group">
               <button
                 onClick={() => {
-                  setActiveRecipeIndex(index); // activeRecipeIndex 설정
-                  setIsModalOpen(true); // 모달 열기
+                  setActiveRecipeIndex(index);
+                  setIsModalOpen(true);
                 }}
                 className="button small"
               >
                 수정
               </button>
               <button
-                onClick={() => handleDelete(index)} // 삭제 버튼 클릭 시 handleDelete 호출
+                onClick={() => handleDelete(index)}
                 className="button delete"
               >
                 삭제
@@ -210,14 +192,10 @@ const DetailPage = () => {
           </div>
         </div>
       ))}
-
-      {/* 수정 모달 */}
       {isModalOpen && (
         <div className={`modal ${isModalOpen ? "open" : ""}`}>
           <div className="modal-content">
             <h3>{planner.recipes[activeRecipeIndex]?.selectedMenu} 수정</h3>
-
-            {/* 장 볼 리스트 입력 */}
             <div>
               <label>장 볼 리스트:</label>
               <input
@@ -242,8 +220,6 @@ const DetailPage = () => {
                 placeholder="장 볼 리스트를 입력 후 Enter를 누르세요."
               />
             </div>
-
-            {/* 장 볼 리스트 출력 */}
             <div>
               <ul>
                 {updatedData[activeRecipeIndex]?.customShoppingList.map((item, idx) => (
@@ -267,8 +243,6 @@ const DetailPage = () => {
                 ))}
               </ul>
             </div>
-
-            {/* 인분, 예산, 메모 입력 */}
             <div className="form-group">
               <label>인분:</label>
               <input
@@ -298,21 +272,20 @@ const DetailPage = () => {
                 }
               />
             </div>
-
-            {/* 버튼 그룹 */}
             <div className="button-group">
               <button className="button primary" onClick={handleUpdate}>
                 수정 완료
               </button>
-              <button className="button secondary" onClick={() => setIsModalOpen(false)}>
+              <button
+                className="button secondary"
+                onClick={() => setIsModalOpen(false)}
+              >
                 취소
               </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* 마이페이지로 이동 버튼 */}
       <div className="button-container">
         <button onClick={() => navigate("/mypage")} className="button">
           마이페이지로 돌아가기

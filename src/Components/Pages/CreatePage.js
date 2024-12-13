@@ -90,7 +90,7 @@ const CreatePage = () => {
           {
             selectedMenu,
             shoppingList: shoppingList.split(","),
-            customShoppingList: customShoppingList.split("/n"), // 장 볼 리스트
+            customShoppingList: customShoppingList.split("\n"), // 장 볼 리스트
             imageUrl,
             servings,
             budget,

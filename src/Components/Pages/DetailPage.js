@@ -146,7 +146,7 @@ const DetailPage = () => {
             </div>
             <div>
               <strong>장 볼 리스트:</strong>
-              {recipe.customShoppingList.length > 0 ? (
+              {recipe.customShoppingList && recipe.customShoppingList.length > 0 && recipe.customShoppingList[0] !== "" ? (
                 <ul className="shopping-list">
                   {recipe.customShoppingList.map((item, idx) => {
                     const lines = item.split("\n");
@@ -163,6 +163,7 @@ const DetailPage = () => {
                 <p>장 볼 리스트가 비어 있습니다.</p>
               )}
             </div>
+
             <p>
               <strong>인분 수:</strong> {recipe.servings}인분
             </p>
